@@ -13,6 +13,8 @@ package ca.mcgill.ecse211.odometer;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 public class Odometer extends OdometerData implements Runnable {
+	
+	private static final double RAD_TO_DEG = 57.2958;
 
 	private OdometerData odoData;
 	private static Odometer odo = null; // Returned as singleton
@@ -49,8 +51,8 @@ public class Odometer extends OdometerData implements Runnable {
 		// Reset the values of x, y and z to 0
 		odoData.setXYT(0, 0, 0);
 
-		this.leftMotorTachoCount = 0;
-		this.rightMotorTachoCount = 0;
+		this.leftMotorTachoCount = leftMotor.getTachoCount();
+		this.rightMotorTachoCount = rightMotor.getTachoCount();
 
 		this.TRACK = TRACK;
 		this.WHEEL_RAD = WHEEL_RAD;
@@ -106,7 +108,7 @@ public class Odometer extends OdometerData implements Runnable {
 			updateStart = System.currentTimeMillis();
 
 			// get the previous tacho count for further calculations
-			position = odoData.getXYT();
+			position = odo.getXYT();
 
 			nowTachoL = leftMotor.getTachoCount();
 			nowTachoR = rightMotor.getTachoCount();
@@ -118,15 +120,15 @@ public class Odometer extends OdometerData implements Runnable {
 			rightMotorTachoCount = nowTachoR;
 			
 			deltaD = 0.5 * (disL + disR);
-			deltaT = (disL - disR) / TRACK;
+			deltaT = ((disL - disR) / TRACK) * RAD_TO_DEG;
 			
 			position[2] += deltaT; //position[2] is heading angle
-			dX = deltaD * Math.sin(position[2]);
-			dY = deltaD * Math.cos(position[2]);
+			dX = deltaD * Math.sin(position[2] / RAD_TO_DEG);
+			dY = deltaD * Math.cos(position[2] / RAD_TO_DEG);
 			position[0] += dX; // position[0] is x-position
 			position[1] += dY; // position [1] is y-position
 			
-			odo.update(dX, dY, deltaT);			
+			odo.update(dX, dY, deltaT);
 			
 			// this ensures that the odometer only runs once every period
 			updateEnd = System.currentTimeMillis();
