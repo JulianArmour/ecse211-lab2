@@ -100,7 +100,7 @@ public class Odometer extends OdometerData implements Runnable {
 		long updateStart, updateEnd;
 
 		while (true) {
-			double disL, disR, deltaD, deltaT, dX, dY, x, y, theta;
+			double disL, disR, deltaD, deltaT, dX, dY;
 			int nowTachoL, nowTachoR;
 
 			updateStart = System.currentTimeMillis();
@@ -110,8 +110,6 @@ public class Odometer extends OdometerData implements Runnable {
 
 			nowTachoL = leftMotor.getTachoCount();
 			nowTachoR = rightMotor.getTachoCount();
-
-			// TODO Calculate new robot position based on tachometer counts
 
 			disL = Math.PI * WHEEL_RAD * (nowTachoL - leftMotorTachoCount) / 180;
 			disR = Math.PI * WHEEL_RAD * (nowTachoR - rightMotorTachoCount) / 180;
