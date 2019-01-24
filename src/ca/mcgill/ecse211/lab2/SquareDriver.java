@@ -67,7 +67,13 @@ public class SquareDriver {
     return (int) ((180.0 * distance) / (Math.PI * radius));
   }
 
-  private static int convertAngle(double radius, double width, double angle) {
+  /**
+ * @param radius radius of the wheels
+ * @param width distance between the wheels
+ * @param angle the angle the robot should turn
+ * @return the angle in degrees the wheels must rotate to turn the robot a certain angle
+ */
+private static int convertAngle(double radius, double width, double angle) {
     return convertDistance(radius, Math.PI * width * angle / 360.0);
   }
 }
