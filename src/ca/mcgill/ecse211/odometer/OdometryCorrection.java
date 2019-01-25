@@ -54,8 +54,10 @@ public class OdometryCorrection implements Runnable {
 				if (pastPosition == null) {
 					pastPosition = curPosition;
 				}
-				// the robot turned 90-degrees. We need to reset the correction
-				else if (Math.abs(curPosition[2] - pastPosition[2]) > 85) {
+				// the robot turned 90-degrees. We need to reset the correction.
+				// since the distance is measured in degrees, we need to use
+				// cyclic distance instead of Euclidean distance
+				else if ((curPosition[2] - pastPosition[2] + 360) % 360 > 85) {
 					pastPosition = curPosition;
 				}
 				else {
