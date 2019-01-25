@@ -3,6 +3,8 @@
  */
 package ca.mcgill.ecse211.odometer;
 
+import java.util.Currency;
+
 import ca.mcgill.ecse211.lab2.Lab2;
 import ca.mcgill.ecse211.lab2.SquareDriver;
 import lejos.hardware.Sound;
@@ -37,6 +39,8 @@ public class OdometryCorrection implements Runnable {
 	 * @throws OdometerExceptions
 	 */
 	// run method (required for Thread)
+	
+	// ((curPosition[2] - pastPosition[2] + 360) % 360 > 80)
 	public void run() {
 		long correctionStart, correctionEnd;
 
@@ -45,42 +49,29 @@ public class OdometryCorrection implements Runnable {
 			
 			ls.fetchSample(lsData, 0);
 			
-			if ((int) lsData[0] == Color.BLACK) {
+			if (lsData[0] <= 0.1) {
 				Sound.beep();
 				
 				double[] curPosition = odometer.getXYT();
 				
-				// the first time the robot crosses the line
+//				System.out.println("POSITION: " + curPosition[0] + ", " + curPosition[1] + ", " + curPosition[2]);
+				
 				if (pastPosition == null) {
 					pastPosition = curPosition;
-					System.out.println("setting initial position");
+//					System.out.println("first line");
 				}
-				// the robot turned 90-degrees. We need to reset the correction.
-				// since the distance is measured in degrees, we need to use
-				// cyclic distance instead of Euclidean distance
-				else if ((curPosition[2] - pastPosition[2] + 360) % 360 > 80) {
+				else if (Math.abs(curPosition[2] - pastPosition[2]) > 80 && Math.abs(curPosition[2] - pastPosition[2]) < 100) {
+//					System.out.println("turned " + pastPosition[2] + " to " + curPosition[2]);
 					pastPosition = curPosition;
-					System.out.println("turned - getting new position");
-//					Sound.beep();
 				}
 				else {
-					System.out.println("NEW POSITION");
+					odometer.setX(pastPosition[0] + SquareDriver.TILE_SIZE * Math.sin(pastPosition[2] / Odometer.RAD_TO_DEG));
+					odometer.setY(pastPosition[1] + SquareDriver.TILE_SIZE * Math.cos(pastPosition[2] / Odometer.RAD_TO_DEG));
+					
 					pastPosition = curPosition;
-//					double dx = curPosition[0] - pastPosition[0];
-//					double dy = curPosition[1] - pastPosition[1];
-////					double dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-//					
-//					if (Math.abs(dx) > 5) {
-//						System.out.println("correcting X");
-//						odometer.setX(curPosition[0]);
-////						Sound.beep();
-//					}
-//					else if (Math.abs(dy) > 5) {
-//						System.out.println("correcting Y");
-//						odometer.setY(curPosition[1]);
-////						Sound.beep();
-//					}
+//					System.out.println("LINE");				
 				}
+				
 			}
 
 			// this ensures the odometry correction occurs only once every period

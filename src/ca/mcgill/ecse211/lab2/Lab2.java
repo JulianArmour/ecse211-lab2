@@ -20,13 +20,13 @@ public class Lab2 {
       new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
   private static final TextLCD lcd = LocalEV3.get().getTextLCD();
   // The radius of the wheels in cm
-  public static final double WHEEL_RAD = 2.11;
+  public static final double WHEEL_RAD = 2.15; //2.24
   // The distance between both wheels in cm
-  public static final double TRACK = 11.1;
+  public static final double TRACK = 11.0;
   
   private static Port portLS = LocalEV3.get().getPort("S1");
   private static SensorModes ls = new EV3ColorSensor(portLS);
-  private static SampleProvider colorProvider = ls.getMode("ColorID");
+  private static SampleProvider colorProvider = ls.getMode("RGB");
   private static float[] sampleLS = new float[colorProvider.sampleSize()];
 
   public static void main(String[] args) throws OdometerExceptions {
