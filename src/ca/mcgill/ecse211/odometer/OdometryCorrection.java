@@ -53,26 +53,33 @@ public class OdometryCorrection implements Runnable {
 				// the first time the robot crosses the line
 				if (pastPosition == null) {
 					pastPosition = curPosition;
+					System.out.println("setting initial position");
 				}
 				// the robot turned 90-degrees. We need to reset the correction.
 				// since the distance is measured in degrees, we need to use
 				// cyclic distance instead of Euclidean distance
-				else if ((curPosition[2] - pastPosition[2] + 360) % 360 > 85) {
+				else if ((curPosition[2] - pastPosition[2] + 360) % 360 > 80) {
 					pastPosition = curPosition;
+					System.out.println("turned - getting new position");
+//					Sound.beep();
 				}
 				else {
+					System.out.println("NEW POSITION");
+					pastPosition = curPosition;
 //					double dx = curPosition[0] - pastPosition[0];
 //					double dy = curPosition[1] - pastPosition[1];
-//					double odometerDistance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-//					double error = SquareDriver.TILE_SIZE - odometerDistance;
-//					double errorX = error * Math.sin(curPosition[2] / Odometer.RAD_TO_DEG);
-//					double errorY = error * Math.cos(curPosition[2] / Odometer.RAD_TO_DEG);
-					
-					double newX = SquareDriver.TILE_SIZE * Math.sin(pastPosition[2] / Odometer.RAD_TO_DEG);
-					double newY = SquareDriver.TILE_SIZE * Math.cos(pastPosition[2] / Odometer.RAD_TO_DEG);
-					
-					odometer.setX(newX);
-					odometer.setY(newY);
+////					double dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+//					
+//					if (Math.abs(dx) > 5) {
+//						System.out.println("correcting X");
+//						odometer.setX(curPosition[0]);
+////						Sound.beep();
+//					}
+//					else if (Math.abs(dy) > 5) {
+//						System.out.println("correcting Y");
+//						odometer.setY(curPosition[1]);
+////						Sound.beep();
+//					}
 				}
 			}
 
