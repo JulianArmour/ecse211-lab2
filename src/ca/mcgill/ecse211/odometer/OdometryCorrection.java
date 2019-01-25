@@ -66,19 +66,15 @@ public class OdometryCorrection implements Runnable {
 //					double errorX = error * Math.sin(curPosition[2] / Odometer.RAD_TO_DEG);
 //					double errorY = error * Math.cos(curPosition[2] / Odometer.RAD_TO_DEG);
 					
+					double newX = SquareDriver.TILE_SIZE * Math.sin(pastPosition[2] / Odometer.RAD_TO_DEG);
+					double newY = SquareDriver.TILE_SIZE * Math.cos(pastPosition[2] / Odometer.RAD_TO_DEG);
 					
-					
+					odometer.setX(newX);
+					odometer.setY(newY);
 				}
 			}
 
-			// TODO Trigger correction (When do I have information to correct?)
-			// TODO Calculate new (accurate) robot position
-
-			// TODO Update odometer with new calculated (and more accurate) values
-
-			// odometer.setXYT(0.3, 19.23, 5.0);
-
-			// this ensure the odometry correction occurs only once every period
+			// this ensures the odometry correction occurs only once every period
 			correctionEnd = System.currentTimeMillis();
 			if (correctionEnd - correctionStart < CORRECTION_PERIOD) {
 				try {

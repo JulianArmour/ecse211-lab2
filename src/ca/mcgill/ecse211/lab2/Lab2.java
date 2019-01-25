@@ -34,8 +34,8 @@ public class Lab2 {
     int buttonChoice;
 
     // Odometer related objects
-    Odometer odometer = Odometer.getOdometer(leftMotor, rightMotor, TRACK, WHEEL_RAD); // TODO Complete implementation
-    OdometryCorrection odometryCorrection = new OdometryCorrection(colorProvider, sampleLS); // TODO Complete
+    Odometer odometer = Odometer.getOdometer(leftMotor, rightMotor, TRACK, WHEEL_RAD);
+    OdometryCorrection odometryCorrection = new OdometryCorrection(colorProvider, sampleLS);
                                                                       // implementation
     Display odometryDisplay = new Display(lcd); // No need to change
 
