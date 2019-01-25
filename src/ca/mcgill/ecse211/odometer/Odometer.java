@@ -14,7 +14,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 public class Odometer extends OdometerData implements Runnable {
 	
-	private static final double RAD_TO_DEG = 57.2958;
+	public static final double RAD_TO_DEG = 57.2958;
 
 	private OdometerData odoData;
 	private static Odometer odo = null; // Returned as singleton
