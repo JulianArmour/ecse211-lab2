@@ -61,12 +61,11 @@ public class OdometryCorrection implements Runnable {
 					try {
 						Thread.sleep(LINE_SLEEP);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 //					System.out.println("first line");
 				}
-				else if (Math.abs(curPosition[2] - pastPosition[2]) > 80 && Math.abs(curPosition[2] - pastPosition[2]) < 100) {
+				else if (80 < ((curPosition[2] - pastPosition[2] + 360) % 360) && ((curPosition[2] - pastPosition[2] + 360) % 360) < 100) {
 //					System.out.println("turned " + pastPosition[2] + " to " + curPosition[2]);
 					
 					pastPosition = curPosition;
@@ -74,7 +73,6 @@ public class OdometryCorrection implements Runnable {
 					try {
 						Thread.sleep(LINE_SLEEP);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -88,7 +86,6 @@ public class OdometryCorrection implements Runnable {
 					try {
 						Thread.sleep(LINE_SLEEP);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 //					System.out.println("CORRECTION:    X: " + newX + "    Y: " + newY);
