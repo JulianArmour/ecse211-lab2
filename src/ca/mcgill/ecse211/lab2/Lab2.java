@@ -20,9 +20,9 @@ public class Lab2 {
       new EV3LargeRegulatedMotor(LocalEV3.get().getPort("B"));
   private static final TextLCD lcd = LocalEV3.get().getTextLCD();
   // The radius of the wheels in cm
-  public static final double WHEEL_RAD = 2.15; //2.24
+  public static final double WHEEL_RAD = 2.1; //Radius increase = distance decrease
   // The distance between both wheels in cm
-  public static final double TRACK = 11.0;
+  public static final double TRACK = 10.8;	//Width decrease = turn angle increase
   
   private static Port portLS = LocalEV3.get().getPort("S1");
   private static SensorModes ls = new EV3ColorSensor(portLS);

@@ -3,6 +3,10 @@
  */
 package ca.mcgill.ecse211.lab2;
 
+import javax.xml.ws.Endpoint;
+
+import ca.mcgill.ecse211.odometer.Odometer;
+import ca.mcgill.ecse211.odometer.OdometerExceptions;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 /**
@@ -12,6 +16,7 @@ public class SquareDriver {
   private static final int FORWARD_SPEED = 250;
   private static final int ROTATE_SPEED = 150;
   public static final double TILE_SIZE = 30.48;
+  public static int lineCount=0;
 
   /**
    * This method is meant to drive the robot in a square of size 2x2 Tiles. It is to run in parallel
@@ -47,6 +52,7 @@ public class SquareDriver {
       leftMotor.rotate(convertDistance(leftRadius, 3 * TILE_SIZE), true);
       rightMotor.rotate(convertDistance(rightRadius, 3 * TILE_SIZE), false);
       
+      
 
       // turn 90 degrees clockwise
       leftMotor.setSpeed(ROTATE_SPEED);
@@ -57,6 +63,15 @@ public class SquareDriver {
       rightMotor.rotate(-convertAngle(rightRadius, track, 90.0), false);
       
     }
+    double[] endPos = {1337.0,1337.0,1337.0};
+    try {
+		endPos = Odometer.getOdometer().getXYT();
+	} catch (OdometerExceptions e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    System.out.println("End: "+endPos[0]+", "+endPos[1]+", "+endPos[2]);
+    System.out.println("Count: " + lineCount);
   }
 
   /**

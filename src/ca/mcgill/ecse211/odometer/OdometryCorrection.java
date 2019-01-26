@@ -3,16 +3,14 @@
  */
 package ca.mcgill.ecse211.odometer;
 
-import java.util.Currency;
 
-import ca.mcgill.ecse211.lab2.Lab2;
+
 import ca.mcgill.ecse211.lab2.SquareDriver;
-import lejos.hardware.Sound;
-import lejos.robotics.Color;
 import lejos.robotics.SampleProvider;
 
 public class OdometryCorrection implements Runnable {
 	private static final long CORRECTION_PERIOD = 10;
+	private static final long LINE_SLEEP = 2000;
 	private Odometer odometer;
 	private SampleProvider ls;
 	private float[] lsData;
@@ -50,7 +48,9 @@ public class OdometryCorrection implements Runnable {
 			ls.fetchSample(lsData, 0);
 			
 			if (lsData[0] <= 0.1) {
-				Sound.beep();
+//				Sound.beep();
+				
+				SquareDriver.lineCount++;
 				
 				double[] curPosition = odometer.getXYT();
 				
@@ -58,18 +58,40 @@ public class OdometryCorrection implements Runnable {
 				
 				if (pastPosition == null) {
 					pastPosition = curPosition;
+					try {
+						Thread.sleep(LINE_SLEEP);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 //					System.out.println("first line");
 				}
 				else if (Math.abs(curPosition[2] - pastPosition[2]) > 80 && Math.abs(curPosition[2] - pastPosition[2]) < 100) {
 //					System.out.println("turned " + pastPosition[2] + " to " + curPosition[2]);
-					pastPosition = curPosition;
-				}
-				else {
-					odometer.setX(pastPosition[0] + SquareDriver.TILE_SIZE * Math.sin(pastPosition[2] / Odometer.RAD_TO_DEG));
-					odometer.setY(pastPosition[1] + SquareDriver.TILE_SIZE * Math.cos(pastPosition[2] / Odometer.RAD_TO_DEG));
 					
 					pastPosition = curPosition;
-//					System.out.println("LINE");				
+					
+					try {
+						Thread.sleep(LINE_SLEEP);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else {
+					double newX = pastPosition[0] + SquareDriver.TILE_SIZE * Math.sin(pastPosition[2] / Odometer.RAD_TO_DEG);
+					double newY = pastPosition[1] + SquareDriver.TILE_SIZE * Math.cos(pastPosition[2] / Odometer.RAD_TO_DEG);
+					odometer.setXYT(newX, newY, curPosition[2]);
+					
+					pastPosition[0] = newX;
+					pastPosition[1] = newY;
+					try {
+						Thread.sleep(LINE_SLEEP);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//					System.out.println("CORRECTION:    X: " + newX + "    Y: " + newY);
 				}
 				
 			}
