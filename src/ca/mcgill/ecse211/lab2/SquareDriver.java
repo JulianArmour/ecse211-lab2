@@ -63,15 +63,15 @@ public class SquareDriver {
       rightMotor.rotate(-convertAngle(rightRadius, track, 90.0), false);
       
     }
-    double[] endPos = {1337.0,1337.0,1337.0};
-    try {
-		endPos = Odometer.getOdometer().getXYT();
-	} catch (OdometerExceptions e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-    System.out.println("End: "+endPos[0]+", "+endPos[1]+", "+endPos[2]);
-    System.out.println("Count: " + lineCount);
+//    double[] endPos = {1337.0,1337.0,1337.0};
+//    try {
+//		endPos = Odometer.getOdometer().getXYT();
+//	} catch (OdometerExceptions e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//    System.out.println("End: "+endPos[0]+", "+endPos[1]+", "+endPos[2]);
+//    System.out.println("Count: " + lineCount);
   }
 
   /**
