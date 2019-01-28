@@ -46,11 +46,12 @@ public class OdometryCorrection implements Runnable {
 			correctionStart = System.currentTimeMillis();
 			
 			ls.fetchSample(lsData, 0);
+//			System.out.println("Sensor: " + lsData[0]);
 			
 			/* when the light intensity is extremely low, it's due to a
 			 * black line being crossed.
 			 */
-			if (lsData[0] <= 0.1) {
+			if (lsData[0] <= 0.3) {
 				
 				SquareDriver.lineCount++;
 				

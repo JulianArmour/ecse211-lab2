@@ -3,6 +3,8 @@
  */
 package ca.mcgill.ecse211.lab2;
 
+import ca.mcgill.ecse211.odometer.Odometer;
+import ca.mcgill.ecse211.odometer.OdometerExceptions;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 
 /**
