@@ -12,7 +12,8 @@ public class SquareDriver {
   private static final int FORWARD_SPEED = 250;
   private static final int ROTATE_SPEED = 150;
   public static final double TILE_SIZE = 30.48;
-  public static int lineCount = 0; // a debugging variable used to count how many times the sensor detects a black line.
+  //a debugging variable used to count how many times the sensor detects a black line.
+  public static int lineCount = 0; 
 
   /**
    * This method is meant to drive the robot in a square of size 2x2 Tiles. It is to run in parallel

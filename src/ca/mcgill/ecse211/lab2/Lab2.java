@@ -24,9 +24,12 @@ public class Lab2 {
   // The distance between both wheels in cm
   public static final double TRACK = 10.8;	//Width decrease = turn angle increase
   
+  // defined port and sensor
   private static Port portLS = LocalEV3.get().getPort("S1");
   private static SensorModes ls = new EV3ColorSensor(portLS);
-  private static SampleProvider colorProvider = ls.getMode("RGB");
+  // since Black absorbs light, the intensity of red light reflected from a black line will be very small
+  // this is how the black line will be detected
+  private static SampleProvider colorProvider = ls.getMode("Red");
   private static float[] sampleLS = new float[colorProvider.sampleSize()];
 
   public static void main(String[] args) throws OdometerExceptions {
